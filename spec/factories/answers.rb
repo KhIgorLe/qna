@@ -7,11 +7,16 @@
 #  question_id :bigint(8)        not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  user_id     :bigint(8)        not null
 #
 
 FactoryBot.define do
+  sequence :body do |n|
+    "MyTextAnswer#{n}"
+  end
+
   factory :answer do
-    body { "MyText" }
+    body
 
     trait :invalid do
       body { nil }

@@ -7,10 +7,12 @@
 #  body       :text
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  user_id    :bigint(8)        not null
 #
 
 class Question < ApplicationRecord
   has_many :answers, dependent: :destroy
+  belongs_to :user
 
   validates :title, :body, presence: true
 end

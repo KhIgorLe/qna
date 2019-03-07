@@ -7,12 +7,14 @@
 #  question_id :bigint(8)        not null
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  user_id     :bigint(8)        not null
 #
 
 require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
   it { should belong_to(:question) }
+  it { should belong_to(:user) }
 
   it { should validate_presence_of(:body) }
 end
