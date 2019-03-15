@@ -37,15 +37,6 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
-  describe 'GET #edit' do
-    before { login(user) }
-    before { get :edit, params: { id: question } }
-
-    it 'render edit view ' do
-      expect(response).to render_template :edit
-    end
-  end
-
   describe 'POST #create' do
     describe 'with authenticated user' do
       before { login(user) }
@@ -100,32 +91,33 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    describe 'with authenticated user' do
+
+    describe 'login by owner user' do
       before { login(user) }
 
       context 'with valid attributes' do
         it 'assigns the requested question to @question' do
-          do_request(question: attributes_for(:question))
+          do_request(question: attributes_for(:question), format: :js)
 
           expect(assigns(:question)).to eq question
         end
 
         it 'changes question attributes' do
-          do_request(question: { title: 'new title', body: 'new body' })
+          do_request(question: { title: 'new title', body: 'new body' }, format: :js)
           question.reload
 
           expect(question.title).to eq 'new title'
           expect(question.body).to eq 'new body'
         end
 
-        it 'redirect to updated question' do
-          do_request(question: attributes_for(:question))
-          expect(response).to redirect_to question
+        it 'renders update view' do
+          do_request(question: { title: 'new title', body: 'new body' }, format: :js)
+          expect(response).to render_template :update
         end
       end
 
       context 'with invalid attributes' do
-        before { do_request(question: attributes_for(:question, :invalid)) }
+        before { do_request(question: attributes_for(:question, :invalid), format: :js ) }
 
         it 'not change question' do
           correct_title = question.title
@@ -137,22 +129,25 @@ RSpec.describe QuestionsController, type: :controller do
           expect(question.body).to eq correct_body
         end
 
-        it 're-render edit view' do
-          expect(response).to render_template :edit
+        it 'renders update view' do
+          expect(response).to render_template :update
         end
       end
     end
 
-    context "Unauthenticated user" do
-      subject { post :create, params: { question: attributes_for(:question) } }
-
-      it 'tries update question' do
-        expect { subject }.to_not change(Question, :count)
+    context "login by another user" do
+      before do
+        login(another_user)
+        do_request(question: { title: 'New title', body: 'New body' }, format: :js  )
       end
 
-      it 're-render login page' do
-        subject
-        expect(response).to redirect_to new_user_session_path
+      it 'can not change question attributes' do
+        expect(assigns(:question).title).to_not eq 'New title'
+        expect(assigns(:question).title).to_not eq 'New body'
+      end
+
+      it 'redirect to show view' do
+        expect(response).to redirect_to question_path(question)
       end
     end
 

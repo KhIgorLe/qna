@@ -8,6 +8,7 @@
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #  user_id     :bigint(8)        not null
+#  best        :boolean          default(FALSE), not null
 #
 
 FactoryBot.define do
@@ -17,6 +18,8 @@ FactoryBot.define do
 
   factory :answer do
     body
+    question
+    user
 
     trait :invalid do
       body { nil }

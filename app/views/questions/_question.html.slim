@@ -1,1 +1,4 @@
-p= link_to question.title, question_path(question)
+tr
+  td = "Answers: #{question.answers.count}"
+  td= link_to question.title, question_path(question)
+  td = "Author:  #{question.user.email}"

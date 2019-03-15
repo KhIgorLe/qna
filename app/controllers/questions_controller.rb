@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :not_author_question, only: :destroy
+  before_action :not_author_question, only: %i[update destroy]
 
   def index
     @questions = Question.all
@@ -28,11 +28,7 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    if question.update(question_params)
-      redirect_to question
-    else
-      render :edit
-    end
+    question.update(question_params)
   end
 
   def destroy

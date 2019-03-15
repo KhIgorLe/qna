@@ -15,15 +15,16 @@ feature 'User can give answers for questions', %q{
       visit question_path(question)
     end
 
-    scenario 'give answer for question' do
+    scenario 'give answer for question', js: true do
       fill_in 'Body', with: 'Test question body'
       click_on 'Give answer'
 
-      expect(page).to have_content 'Your answer successfully created.'
-      expect(page).to have_content 'Test question body'
+      within '.answers' do
+        expect(page).to have_content 'Test question body'
+      end
     end
 
-    scenario 'give answer for question with errors' do
+    scenario 'give answer for question with errors', js: true do
       click_on 'Give answer'
       expect(page).to have_content "Body can't be blank"
     end

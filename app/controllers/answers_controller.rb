@@ -1,21 +1,29 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!
-  before_action :not_author_answer, only: :destroy
+  before_action :not_author_answer, only: %i[update destroy]
+  before_action :not_author_question, only: :make_best
 
   def create
     @answer = question.answers.new(answer_params)
     @answer.user = current_user
+    @answer.save
+  end
 
-    if @answer.save
-      redirect_to question_path(question), notice: 'Your answer successfully created.'
-    else
-      render 'questions/show'
-    end
+  def edit
+  end
+
+  def update
+    answer.update(answer_params)
+
+    @question = answer.question
   end
 
   def destroy
     answer.destroy
-    redirect_to question_path(question), notice: 'Answer delete successfully'
+  end
+
+  def make_best
+    answer.make_best!
   end
 
   private
@@ -26,8 +34,14 @@ class AnswersController < ApplicationController
     redirect_to question_path(question), notice: 'You can only delete your answer'
   end
 
+  def not_author_question
+    return if current_user.author_of?(question)
+
+    redirect_to question_path(question), notice: 'You can make best answer only for your question'
+  end
+
   def question
-     @question ||= params[:question_id] ? Question.find(params[:question_id]) : answer.question
+    @question ||= params[:question_id] ? Question.find(params[:question_id]) : answer.question
   end
 
   def answer

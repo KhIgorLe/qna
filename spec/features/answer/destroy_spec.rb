@@ -10,16 +10,18 @@ feature 'user can delete his answer', %q{
   given(:question) { create(:question, user: user) }
   given!(:answer) { create(:answer, question: question, user: user) }
 
-  scenario 'Answer author can delete answer' do
+  scenario 'Answer author can delete answer', js: true do
     sign_in(user)
     visit question_path(question)
-    click_on 'Delete answer'
 
-    expect(page).to have_content 'Answer delete successfully'
+    within '.answers' do
+      page.accept_confirm { click_on 'Delete answer' }
+    end
+
     expect(page).to_not have_content answer.body
   end
 
-  context 'Non author answer' do
+  context 'Non author answer', js: true do
     given(:another_user) { create(:user) }
 
     scenario 'tries delete answer' do
@@ -30,7 +32,7 @@ feature 'user can delete his answer', %q{
     end
   end
 
-  scenario 'Unauthenticated user tries delete answer' do
+  scenario 'Unauthenticated user tries delete answer', js: true do
     visit question_path(question)
 
     expect(page).to_not have_link 'Delete answer'

@@ -1,0 +1,5 @@
+<% if answer.errors.present? %>
+  $('.answer_errors').html('<%= render 'shared/errors', resource: answer %>');
+<% else %>
+  $('#answer_'+ <%= answer.id %>).replaceWith('<%= j render answer %>');
+<% end %>
