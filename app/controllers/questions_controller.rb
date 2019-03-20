@@ -41,16 +41,16 @@ class QuestionsController < ApplicationController
   helper_method :question
 
   def question
-    @question ||= params[:id] ? Question.find(params[:id]) : Question.new
+    @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
   end
 
   def not_author_question
     return if current_user.author_of?(question)
 
-    redirect_to question_path(question), notice: 'You can only delete your question'
+    redirect_to root_path, notice: 'You can only delete your question'
   end
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, files: [])
   end
 end

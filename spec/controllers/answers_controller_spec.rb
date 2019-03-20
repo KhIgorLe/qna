@@ -109,10 +109,10 @@ RSpec.describe AnswersController, type: :controller do
         expect(assigns(:answer).body).to_not eq 'New body'
       end
 
-      it 'redirect to show view' do
+      it 'redirect to root path' do
         subject
 
-        expect(response).to redirect_to question_path(question)
+        expect(response).to redirect_to root_path
       end
     end
 
@@ -140,9 +140,9 @@ RSpec.describe AnswersController, type: :controller do
         expect { subject }.to_not change(Answer, :count)
       end
 
-      it 'redirect to show view' do
+      it 'redirect to root path' do
         subject
-        expect(response).to redirect_to question_path(question)
+        expect(response).to redirect_to root_path
       end
     end
   end
@@ -180,8 +180,8 @@ RSpec.describe AnswersController, type: :controller do
         expect(answer).to_not be_best
       end
 
-      it 'redirect to show view' do
-        expect(response).to redirect_to question_path(question)
+      it 'redirect to root path' do
+        expect(response).to redirect_to root_path
       end
     end
   end

@@ -3,4 +3,6 @@
   = f.text_field :title, class: 'form-control', rows: 4
   = f.label :body, 'Question body'
   = f.text_area :body, class: 'form-control', rows: 8
+  = f.label :files
+  = f.file_field :files, multiple: true, direct_upload: true
   = f.submit 'Save question', class: 'btn btn-primary'

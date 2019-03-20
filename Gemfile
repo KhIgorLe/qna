@@ -19,6 +19,7 @@ gem 'slim-rails', '~> 3.1'
 gem 'devise', '~> 4.2'
 gem 'jquery-rails', '~> 4.3'
 gem 'bootstrap', '~> 4.3.1'
+gem "aws-sdk-s3", require: false
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

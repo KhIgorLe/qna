@@ -21,14 +21,31 @@ feature 'User can create question', %q{
       click_on 'Save question'
 
       expect(page).to have_content 'Your question successfully created.'
-      expect(page).to have_content 'Test question'
-      expect(page).to have_content 'text text text'
+
+      within '.question' do
+        expect(page).to have_content 'Test question'
+        expect(page).to have_content 'text text text'
+      end
     end
 
     scenario 'tries to ask a question with errors' do
       click_on 'Save question'
 
       expect(page).to have_content "Title can't be blank"
+    end
+
+    scenario 'ask question with attached files' do
+      fill_in 'Question title', with: 'Test question'
+      fill_in 'Question body', with: 'text text text'
+
+      attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+
+      click_on 'Save question'
+
+      within '.question' do
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
+      end
     end
   end
 
@@ -38,5 +55,4 @@ feature 'User can create question', %q{
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
-
 end

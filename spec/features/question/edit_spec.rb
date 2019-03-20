@@ -18,20 +18,25 @@ feature 'user can edit his question', %q{
     end
 
     scenario 'tries edit question', js: true do
-      within '.questions' do
+      within '.question' do
         fill_in 'Question title', with: 'New title'
         fill_in 'Question body', with: 'New body'
+
+        attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
+
         click_on 'Save question'
 
         expect(page).to_not have_content question.body
         expect(page).to have_content 'New title'
         expect(page).to have_content 'New body'
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
         expect(page).to_not have_selector 'textarea'
       end
     end
 
     scenario 'tries edit question with errors', js: true do
-      within '.questions' do
+      within '.question' do
         fill_in 'Question title', with: ''
         click_on 'Save question'
       end

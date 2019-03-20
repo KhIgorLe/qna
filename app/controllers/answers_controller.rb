@@ -31,13 +31,13 @@ class AnswersController < ApplicationController
   def not_author_answer
     return if current_user.author_of?(answer)
 
-    redirect_to question_path(question), notice: 'You can only delete your answer'
+    redirect_to root_path, notice: 'You can only delete your answer'
   end
 
   def not_author_question
     return if current_user.author_of?(question)
 
-    redirect_to question_path(question), notice: 'You can make best answer only for your question'
+    redirect_to root_path, notice: 'You can make best answer only for your question'
   end
 
   def question
@@ -45,12 +45,12 @@ class AnswersController < ApplicationController
   end
 
   def answer
-    @answer ||= params[:id] ? Answer.find(params[:id]) : question.answers.new
+    @answer ||= params[:id] ? Answer.with_attached_files.find(params[:id]) : question.answers.new
   end
 
   helper_method :answer, :question
 
   def answer_params
-    params.require(:answer).permit(:body)
+    params.require(:answer).permit(:body, files: [])
   end
 end
