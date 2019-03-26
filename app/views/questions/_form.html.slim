@@ -5,4 +5,15 @@
   = f.text_area :body, class: 'form-control', rows: 8
   = f.label :files
   = f.file_field :files, multiple: true, direct_upload: true
+  = render 'links/form', f: f
+  p Badge:
+  p
+    = f.fields_for :badge do |badge|
+      .nested-fields
+        p
+          = badge.label :name, 'Badge name'
+          = badge.text_field :name
+        p
+          = badge.label :image, 'Badge image'
+          = badge.file_field :image
   = f.submit 'Save question', class: 'btn btn-primary'

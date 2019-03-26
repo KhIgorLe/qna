@@ -16,4 +16,5 @@
     = f.text_area :body, class: 'form-control', rows: 8
     = f.label :files
     = f.file_field :files, multiple: true
+    = render 'links/form', f: f
     = f.submit 'Give answer'

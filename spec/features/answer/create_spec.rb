@@ -16,11 +16,11 @@ feature 'User can give answers for questions', %q{
     end
 
     scenario 'give answer for question', js: true do
-      fill_in 'Body', with: 'Test question body'
+      fill_in 'Body', with: 'Test answer body'
       click_on 'Give answer'
 
       within '.answers' do
-        expect(page).to have_content 'Test question body'
+        expect(page).to have_content 'Test answer body'
       end
     end
 
@@ -30,7 +30,7 @@ feature 'User can give answers for questions', %q{
     end
 
     scenario 'ask question with attached files', js: true do
-      fill_in 'Body', with: 'Test question body'
+      fill_in 'Body', with: 'Test answer body'
 
       attach_file 'File', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
 

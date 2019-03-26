@@ -1,5 +1,9 @@
 div.text-right
   = link_to 'Ask question', new_question_path, class: 'btn btn-primary'
 
+div.text-left
+  - if current_user&.badges.present?
+    = link_to 'My badges', badges_path, class: 'btn btn-primary'
+
 table.table.table-hover
   = render @questions

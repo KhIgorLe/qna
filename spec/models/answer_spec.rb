@@ -15,12 +15,16 @@ require 'rails_helper'
 
 RSpec.describe Answer, type: :model do
   let(:user) { create(:user) }
-  let(:question) { create(:question, user: user) }
+  let(:badge) { create(:badge, :attached) }
+  let(:question) { create(:question, user: user, badge: badge) }
   let!(:answers) { create_list(:answer, 5, question: question, user: user) }
   let!(:answer) { create(:answer, question: question, best: true) }
 
+  it { should have_many(:links).dependent(:destroy) }
   it { should belong_to(:question) }
   it { should belong_to(:user) }
+
+  it { should accept_nested_attributes_for :links }
 
   it { should validate_presence_of(:body) }
 
@@ -38,6 +42,10 @@ RSpec.describe Answer, type: :model do
 
     it 'another answer best for question'  do
       expect(another_answer).to be_best
+    end
+
+    it '#set_badge! owner answer received badge' do
+      expect(question.badge.user).to eq another_answer.user
     end
   end
 

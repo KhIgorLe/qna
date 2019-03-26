@@ -1,0 +1,5 @@
+- @badges.each do |badge|
+  li
+    =badge.question.title
+    =badge.name
+    =image_tag(badge.image, height: "100", width: "100")

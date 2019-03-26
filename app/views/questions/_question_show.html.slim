@@ -3,6 +3,21 @@ h1 = question.title
 
 = render 'attachments/files', resource: question
 
+.badge
+  - if question.badge.present?
+    p Badge:
+    = image_tag(question.badge.image, height: "100", width: "100")
+
+.links-body
+  p Links:
+  ul
+    - question.links.each  do |link|
+      - if link.gist_link?
+        - link.gist_contents.each do |content|
+          li=content
+      -else
+        li= link_to link.name, link.url, target: '_blank'
+
 - if current_user&.author_of?(question)
   => link_to 'Delete question', question_path(question), method: :delete, data: {confirm: 'Are you sure?'}
   = link_to 'Edit question', '#', class: 'edit-question-link', data: { question_id: question.id }
