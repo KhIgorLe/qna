@@ -21,10 +21,15 @@ class User < ApplicationRecord
   has_many :questions
   has_many :answers
   has_many :badges
+  has_many :votes
 
   validates :email, :password, presence: true
 
   def author_of?(resource)
     resource.user_id == id
+  end
+
+  def voted?(resource)
+    votes.exists?(voteable: resource)
   end
 end

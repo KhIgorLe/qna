@@ -56,4 +56,3 @@ feature 'user can select best answer for question', %q{
     expect(page).to_not have_link 'Best answer'
   end
 end
-

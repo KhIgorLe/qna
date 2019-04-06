@@ -1,6 +1,6 @@
 h1 = question.title
 = question.body
-
+= render 'votes/show', resource: question
 = render 'attachments/files', resource: question
 
 .badge

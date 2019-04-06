@@ -6,6 +6,8 @@ RSpec.describe QuestionsController, type: :controller do
   let(:another_user) { create(:user) }
   let(:question) { create(:question, user: user) }
 
+  it_behaves_like 'voteable', 'question'
+
   describe 'GET #index' do
     let(:questions) { create_list(:question, 3) }
 

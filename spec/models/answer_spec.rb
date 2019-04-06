@@ -28,6 +28,15 @@ RSpec.describe Answer, type: :model do
 
   it { should validate_presence_of(:body) }
 
+  describe 'votable' do
+    let(:owner_user) { create(:user) }
+    let(:question) { create :question, user: owner_user }
+    let(:answer) { create :answer, user: owner_user }
+
+    it_behaves_like 'has many votes'
+    it_behaves_like 'voteable rating', 'answer'
+  end
+
   describe '#make_best! answer for question' do
     let(:another_answer) { create(:answer, question: question)}
 

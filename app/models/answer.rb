@@ -12,6 +12,8 @@
 #
 
 class Answer < ApplicationRecord
+  include Voteable
+
   default_scope { order(best: :desc) }
 
   has_many :links, dependent: :destroy, as: :linkable

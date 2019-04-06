@@ -27,4 +27,12 @@ RSpec.describe Question, type: :model do
   it 'have many attached files' do
     expect(Question.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
+
+  describe 'votable' do
+    let(:owner_user) { create(:user) }
+    let(:question) {create :question, user: owner_user }
+
+    it_behaves_like 'has many votes'
+    it_behaves_like 'voteable rating', 'question'
+  end
 end

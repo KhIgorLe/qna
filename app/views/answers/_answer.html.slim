@@ -4,6 +4,7 @@
     = render 'attachments/files', resource: answer
     - if current_user&.author_of?(answer.question) && !answer.best?
       => link_to 'Best answer', make_best_answer_path(answer), method: :patch, remote: true
+    = render 'votes/show', resource: answer
     .links-body
       p Links:
       ul
