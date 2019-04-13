@@ -28,6 +28,40 @@ feature 'User can create question', %q{
       end
     end
 
+    context 'multiple session' do
+      scenario 'question appears on another user page', js: true do
+        Capybara.using_session('user') do
+          sign_in(user)
+          visit questions_path
+        end
+
+        Capybara.using_session('quest') do
+          visit questions_path
+        end
+
+        Capybara.using_session('user') do
+          click_on 'Ask question'
+
+          fill_in 'Question title', with: 'Test question'
+          fill_in 'Question body', with: 'text text text'
+          click_on 'Save question'
+
+          expect(page).to have_content 'Your question successfully created.'
+
+          within '.question' do
+            expect(page).to have_content 'Test question'
+            expect(page).to have_content 'text text text'
+          end
+        end
+
+        Capybara.using_session('quest') do
+          within '.questions' do
+            expect(page).to have_content 'Test question'
+          end
+        end
+      end
+    end
+
     scenario 'tries to ask a question with errors' do
       click_on 'Save question'
 

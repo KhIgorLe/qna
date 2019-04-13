@@ -31,7 +31,7 @@ feature 'user can edit his question', %q{
         expect(page).to have_content 'New body'
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
-        expect(page).to_not have_selector 'textarea'
+        expect(page).to_not have_selector "#edit-question-#{question.id}"
       end
     end
 

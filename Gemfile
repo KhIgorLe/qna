@@ -22,6 +22,8 @@ gem 'bootstrap', '~> 4.3.1'
 gem "aws-sdk-s3", require: false
 gem 'cocoon', '~> 1.2'
 gem 'octokit', '~> 4.3'
+gem 'gon'
+gem 'skim'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

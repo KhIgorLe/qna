@@ -37,6 +37,10 @@ RSpec.describe Answer, type: :model do
     it_behaves_like 'voteable rating', 'answer'
   end
 
+  describe 'commentable' do
+    it_behaves_like 'has many comments'
+  end
+
   describe '#make_best! answer for question' do
     let(:another_answer) { create(:answer, question: question)}
 
@@ -66,5 +70,11 @@ RSpec.describe Answer, type: :model do
 
   it 'have many attached files' do
     expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
+  end
+
+  it 'broadcast_answer on create & commit' do
+    answer = build(:answer)
+    expect(answer).to receive :broadcast_answer
+    answer.save
   end
 end

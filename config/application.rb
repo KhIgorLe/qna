@@ -29,6 +29,7 @@ module Qna
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+    config.action_cable.disable_request_forgery_protection = false
 
     config.generators do |g|
       g.test_framework :rspec,

@@ -14,6 +14,12 @@
               li= content
           - else
             li= link_to link.name, link.url, target: '_blank'
+
+    .answer-comments
+      | Comments:
+      = render answer.comments
+      = render 'comments/form', commentable: answer
+
     - if answer.best?
       ' This is best answer
     - if current_user&.author_of?(answer)
@@ -27,3 +33,6 @@
         = f.file_field :files, multiple: true, direct_upload: true
         = render 'links/form', f: f
         = f.submit 'Save answer'
+
+    - if user_signed_in?
+      = link_to 'Add comment', '#',class: 'button-answer-comment', data: { answer_id: answer.id }

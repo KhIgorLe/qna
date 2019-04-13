@@ -29,7 +29,7 @@ feature 'user can edit his answer', %q{
         expect(page).to have_content 'New body'
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
-        expect(page).to_not have_selector 'textarea'
+        expect(page).to_not have_selector "#edit-answer-#{answer.id}"
       end
     end
 

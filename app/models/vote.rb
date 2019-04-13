@@ -6,7 +6,7 @@
 #  rating        :integer          default(0), not null
 #  voteable_type :string
 #  voteable_id   :bigint(8)
-#  user_id       :bigint(8)        not null
+#  user_id       :bigint(8)
 #
 
 class Vote < ApplicationRecord

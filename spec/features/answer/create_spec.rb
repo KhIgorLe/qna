@@ -24,6 +24,35 @@ feature 'User can give answers for questions', %q{
       end
     end
 
+    context 'multiple session' do
+      scenario 'question appears on another user page', js: true do
+        Capybara.using_session('user') do
+          sign_in(user)
+          visit question_path(question)
+        end
+
+        Capybara.using_session('quest') do
+          visit question_path(question)
+        end
+
+        Capybara.using_session('user') do
+
+          fill_in 'Body', with: 'Test answer body'
+          click_on 'Give answer'
+
+          within '.answers' do
+            expect(page).to have_content 'Test answer body'
+          end
+        end
+
+        Capybara.using_session('quest') do
+          within '.answers' do
+            expect(page).to have_content 'Test answer body'
+          end
+        end
+      end
+    end
+
     scenario 'give answer for question with errors', js: true do
       click_on 'Give answer'
       expect(page).to have_content "Body can't be blank"

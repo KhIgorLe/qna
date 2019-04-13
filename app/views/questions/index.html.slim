@@ -5,5 +5,5 @@ div.text-left
   - if current_user&.badges.present?
     = link_to 'My badges', badges_path, class: 'btn btn-primary'
 
-table.table.table-hover
+table.table.table-hover.questions
   = render @questions

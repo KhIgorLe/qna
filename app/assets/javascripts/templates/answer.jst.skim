@@ -1,0 +1,30 @@
+li[id="answer_#{@answer.id}"]
+  => @answer.body
+
+  - $.each @files, (index, file) =>
+    div[id="attachment_#{file['file_id']}"]
+    a href="#{file['file_url']}" = file['file_name']
+
+  - if gon.current_user?.id == gon.question.user_id && !@answer.best
+    a data-remote="true" rel="nofollow" data-method="patch" href="/answers/#{@answer.id}/make_best" Best answer
+  .vote
+    p = "Answer rating: #{@rating}"
+  - if gon.current_user && gon.current_user?.id != @answer.user_id
+    .change-rating
+      a data-type="json" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@answer.id}/up_rating" +
+      a data-type="json" data-remote="true" rel="nofollow" data-method="post" href="/answers/#{@answer.id}/down_rating" -
+    .cancel-rating style="display: none;"
+      a data-type="json" data-remote="true" rel="nofollow" data-method="delete" href="/answers/#{@answer.id}/un_rating" Cancel vote
+
+  .links-body
+    p Links:
+    ul
+      - $.each @links, (index, link) =>
+        - if link['gist_content']
+          li
+            = link['gist_content']
+        - else
+          li
+            a href="#{link['link_url']}" #{link['link_name']}
+  - if @answer.best
+    ' This is best answer

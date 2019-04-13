@@ -30,6 +30,10 @@ class AnswersController < ApplicationController
 
   private
 
+  def chanel
+    "question/#{question.id}/answers"
+  end
+
   def not_author_answer
     return if current_user.author_of?(answer)
 

@@ -13,8 +13,11 @@
 
 class Answer < ApplicationRecord
   include Voteable
+  include Commentable
 
   default_scope { order(best: :desc) }
+
+  after_create_commit :broadcast_answer
 
   has_many :links, dependent: :destroy, as: :linkable
   belongs_to :question
@@ -38,5 +41,42 @@ class Answer < ApplicationRecord
 
   def set_badge!
     question.badge.update!(user: user)
+  end
+
+  def broadcast_answer
+    ActionCable.server.broadcast "question/#{question.id}/answers", answer_data
+  end
+
+  def answer_data
+    data = {}
+    data[:answer] = self
+    data[:files] = files_data
+    data[:links] = links_data
+    data[:rating] = rating
+
+    data
+  end
+
+  def files_data
+    data =[]
+    files.each do |file|
+      data << {
+        file_name: file.filename.to_s,
+        file_id: file.id,
+        file_url: Rails.application.routes.url_helpers.rails_blob_path(file, only_path: true) }
+    end
+
+    data
+  end
+
+  def links_data
+    data = []
+    links.each do |link|
+      links_data = { link_name: link.name, link_url: link.url }
+      links_data[:gist_content] = link.gist_contents  if link.gist_link?
+      data << links_data
+    end
+
+    data
   end
 end

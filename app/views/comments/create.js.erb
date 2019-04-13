@@ -1,0 +1,13 @@
+$('.comment_errors').html('<%= render 'shared/errors', resource: @comment %>');
+
+<% if @comment.commentable_type == 'Question' %>
+$('.question-comments').append('<%= j render @comment %>');
+$('textarea').val('');
+$("form#Add-Question-Comment-<%= @comment.commentable.id %>").addClass('hidden');
+$('.button-question-comment').removeClass('hidden');
+<% else %>
+$("#answer_<%= @comment.commentable.id %> .answer-comments").append('<%= j render @comment %>');
+$('textarea').val('');
+$("form#Add-Answer-Comment-<%= @comment.commentable.id %>").addClass('hidden');
+$('.button-answer-comment').removeClass('hidden');
+<% end %>

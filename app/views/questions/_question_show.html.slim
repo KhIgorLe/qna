@@ -18,7 +18,15 @@ h1 = question.title
       -else
         li= link_to link.name, link.url, target: '_blank'
 
+.question-comments
+  | Comments:
+  = render question.comments
+  = render 'comments/form', commentable: question
+
 - if current_user&.author_of?(question)
   => link_to 'Delete question', question_path(question), method: :delete, data: {confirm: 'Are you sure?'}
-  = link_to 'Edit question', '#', class: 'edit-question-link', data: { question_id: question.id }
+  => link_to 'Edit question', '#', class: 'edit-question-link', data: { question_id: question.id }
   = render partial: 'form', locals: { question: question, form_params: { class: 'hidden', html: { id: "edit-question-#{question.id}" } } }
+
+- if user_signed_in?
+  = link_to 'Add comment', '#', class: 'button-question-comment', data: { question_id: question.id }

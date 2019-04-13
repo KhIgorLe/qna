@@ -22,6 +22,7 @@ class User < ApplicationRecord
   has_many :answers
   has_many :badges
   has_many :votes
+  has_many :comments
 
   validates :email, :password, presence: true
 
