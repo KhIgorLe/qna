@@ -24,6 +24,9 @@ gem 'cocoon', '~> 1.2'
 gem 'octokit', '~> 4.3'
 gem 'gon'
 gem 'skim'
+gem 'omniauth', '~> 1.6'
+gem 'omniauth-github', '~> 1.1'
+gem 'omniauth-facebook'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
