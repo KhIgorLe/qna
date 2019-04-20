@@ -2,7 +2,7 @@
   li[id="answer_#{answer.id}"]
     => answer.body
     = render 'attachments/files', resource: answer
-    - if current_user&.author_of?(answer.question) && !answer.best?
+    - if can?(:make_best, answer)
       => link_to 'Best answer', make_best_answer_path(answer), method: :patch, remote: true
     = render 'votes/show', resource: answer
     .links-body
@@ -22,7 +22,7 @@
 
     - if answer.best?
       ' This is best answer
-    - if current_user&.author_of?(answer)
+    - if can?(:update, answer)
       => link_to 'Delete answer', answer_path(answer), method: :delete, data: { confirm: 'Are you sure?' }, remote: true
       = link_to 'Edit answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
 

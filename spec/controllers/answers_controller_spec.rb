@@ -115,7 +115,7 @@ RSpec.describe AnswersController, type: :controller do
       it 'redirect to root path' do
         subject
 
-        expect(response).to redirect_to root_path
+        expect(response).to have_http_status(:forbidden)
       end
     end
 
@@ -145,7 +145,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'redirect to root path' do
         subject
-        expect(response).to redirect_to root_path
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end
@@ -184,7 +184,7 @@ RSpec.describe AnswersController, type: :controller do
       end
 
       it 'redirect to root path' do
-        expect(response).to redirect_to root_path
+        expect(response).to have_http_status(:forbidden)
       end
     end
   end

@@ -19,7 +19,7 @@ RSpec.describe AttachmentsController, type: :controller do
           expect { subject }.to change(question.files, :count).by(-1)
         end
 
-        it 'renders destroy view ' do
+        it 'renders destroy view' do
           subject
           expect(response).to render_template :destroy
         end
@@ -34,7 +34,7 @@ RSpec.describe AttachmentsController, type: :controller do
 
         it 're-render login page' do
           subject
-          expect(response).to redirect_to root_path
+          expect(response).to have_http_status(:forbidden)
         end
       end
     end
@@ -65,7 +65,7 @@ RSpec.describe AttachmentsController, type: :controller do
 
         it 're-render login page' do
           subject
-          expect(response).to redirect_to root_path
+          expect(response).to have_http_status(:forbidden)
         end
       end
     end

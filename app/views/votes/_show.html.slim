@@ -4,9 +4,9 @@
 
 - if user_signed_in? && !current_user&.author_of?(resource)
 
-  .change-rating class = "#{'hidden' if current_user&.voted?(resource)}"
+  .change-rating class = "#{'hidden' if can?(:un_rating, resource)}"
     = link_to '+', polymorphic_path(resource, action: :up_rating), method: :post, data: { type: :json }, remote: true
     = link_to '-', polymorphic_path(resource, action: :down_rating), method: :post, data: { type: :json }, remote: true
 
-  .cancel-rating class = "#{'hidden' unless current_user&.voted?(resource)}"
+  .cancel-rating class = "#{'hidden' unless can?(:un_rating, resource)}"
     = link_to 'Cancel vote', polymorphic_path(resource, action: :un_rating), method: :delete, data: { type: :json }, remote: true

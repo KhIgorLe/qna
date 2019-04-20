@@ -2,8 +2,8 @@ class AnswersController < ApplicationController
   include Voted
 
   before_action :authenticate_user!
-  before_action :not_author_answer, only: %i[update destroy]
-  before_action :not_author_question, only: :make_best
+
+  authorize_resource except: %i[update destroy]
 
   def create
     @answer = question.answers.new(answer_params)
@@ -15,16 +15,19 @@ class AnswersController < ApplicationController
   end
 
   def update
+    authorize! :update, answer
     answer.update(answer_params)
 
     @question = answer.question
   end
 
   def destroy
+    authorize! :destroy, answer
     answer.destroy
   end
 
   def make_best
+    authorize! :make_best, answer
     answer.make_best!
   end
 
@@ -32,18 +35,6 @@ class AnswersController < ApplicationController
 
   def chanel
     "question/#{question.id}/answers"
-  end
-
-  def not_author_answer
-    return if current_user.author_of?(answer)
-
-    redirect_to root_path, notice: 'You can only delete your answer'
-  end
-
-  def not_author_question
-    return if current_user.author_of?(question)
-
-    redirect_to root_path, notice: 'You can make best answer only for your question'
   end
 
   def question

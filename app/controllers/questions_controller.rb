@@ -2,9 +2,9 @@ class QuestionsController < ApplicationController
   include Voted
 
   before_action :authenticate_user!, except: %i[index show]
-  before_action :not_author_question, only: %i[update destroy]
-
   after_action :publish_question, only: :create
+
+  authorize_resource except: %i[update destroy]
 
   def index
     @questions = Question.all
@@ -37,10 +37,12 @@ class QuestionsController < ApplicationController
   end
 
   def update
+    authorize! :update, question
     question.update(question_params)
   end
 
   def destroy
+    authorize! :destroy, question
     question.destroy
     redirect_to questions_path, notice: 'Question delete successfully'
   end
@@ -59,12 +61,6 @@ class QuestionsController < ApplicationController
 
   def question
     @question ||= params[:id] ? Question.with_attached_files.find(params[:id]) : Question.new
-  end
-
-  def not_author_question
-    return if current_user.author_of?(question)
-
-    redirect_to root_path, notice: 'You can only delete your question'
   end
 
   def question_params

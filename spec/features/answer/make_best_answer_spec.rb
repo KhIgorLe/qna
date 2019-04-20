@@ -14,7 +14,6 @@ feature 'user can select best answer for question', %q{
     scenario 'tries select best answer for question', js: true do
       sign_in(user)
       visit question_path(question)
-
       within "#answer_#{answer.id}" do
         click_on 'Best answer'
 
