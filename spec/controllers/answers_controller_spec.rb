@@ -17,9 +17,7 @@ RSpec.describe AnswersController, type: :controller do
           post :create, params: { question_id: question, answer: attributes_for(:answer), format: :js }
         end
 
-        it 'save answer in database' do
-          expect {subject}.to change(question.answers, :count).by(1)
-        end
+        it_behaves_like 'change count object', Answer, 1
 
         it 'new answer has owner' do
           subject
@@ -37,9 +35,7 @@ RSpec.describe AnswersController, type: :controller do
           post :create, params: { question_id: question, answer: attributes_for(:answer, :invalid), format: :js }
         end
 
-        it 'not save answer in database' do
-          expect { subject }.to_not change(Answer, :count)
-        end
+        it_behaves_like 'not change count object', Answer
 
         it 're-render create template' do
           subject
@@ -51,9 +47,7 @@ RSpec.describe AnswersController, type: :controller do
     context "Unauthenticated user" do
       subject { post :create, params: { question_id: question, answer: attributes_for(:answer) } }
 
-      it 'tries create answer' do
-        expect { subject }.to_not change(Answer, :count)
-      end
+      it_behaves_like 'not change count object', Answer
 
       it 're-render login page' do
         subject
@@ -139,9 +133,7 @@ RSpec.describe AnswersController, type: :controller do
     context 'login by another user' do
       before { login(another_user) }
 
-      it 'can not delete question' do
-        expect { subject }.to_not change(Answer, :count)
-      end
+      it_behaves_like 'not change count object', Answer
 
       it 'redirect to root path' do
         subject

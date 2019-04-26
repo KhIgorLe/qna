@@ -28,6 +28,9 @@ gem 'omniauth', '~> 1.6'
 gem 'omniauth-github', '~> 1.1'
 gem 'omniauth-facebook'
 gem 'cancancan'
+gem 'doorkeeper'
+gem 'active_model_serializers', '~> 0.10.0'
+gem 'oj'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

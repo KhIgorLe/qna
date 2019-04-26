@@ -28,6 +28,7 @@ class Ability
     can :create, [Question, Answer, Comment]
     can :update, [Question, Answer], user_id: user.id
     can :destroy, [Question, Answer], user_id: user.id
+    can :me, User, id: user.id
 
     can :up_rating, [Question, Answer] do |object|
       !user.author_of?(object) && !user.voted?(object)

@@ -59,9 +59,8 @@ RSpec.describe QuestionsController, type: :controller do
         subject do
           post :create, params: { question: attributes_for(:question) }
         end
-        it 'save question in database' do
-          expect { subject }.to change(Question, :count).by(1)
-        end
+
+        it_behaves_like 'change count object', Question, 1
 
         it 'new question has owner' do
           subject
@@ -79,9 +78,7 @@ RSpec.describe QuestionsController, type: :controller do
           post :create, params: { question: attributes_for(:question, :invalid) }
         end
 
-        it 'not save question in database' do
-          expect { subject }.to_not change(Question, :count)
-        end
+        it_behaves_like 'not change count object', Question
 
         it 're-render new view' do
           subject
@@ -93,9 +90,7 @@ RSpec.describe QuestionsController, type: :controller do
     context "Unauthenticated user" do
       subject { post :create, params: { question: attributes_for(:question) } }
 
-      it 'tries create question' do
-        expect { subject }.to_not change(Question, :count)
-      end
+      it_behaves_like 'not change count object', Question
 
       it 're-render login page' do
         subject
@@ -191,9 +186,8 @@ RSpec.describe QuestionsController, type: :controller do
     context 'login by another user' do
       before { login(another_user) }
 
-      it 'can not delete question' do
-        expect { subject }.to_not change(Question, :count)
-      end
+
+      it_behaves_like 'not change count object', Question
 
       it 'redirect to root path' do
         subject

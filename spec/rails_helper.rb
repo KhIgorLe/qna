@@ -37,6 +37,7 @@ RSpec.configure do |config|
   config.include ControllerHelpers, type: :controller
   config.include FeatureHelpers, type: :feature
   config.include ModuleHelpers, type: :module
+  config.include ApiHelpers
 
   config.include(OmniauthMacros)
 
