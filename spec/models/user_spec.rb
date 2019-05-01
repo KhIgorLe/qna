@@ -10,6 +10,7 @@
 #  reset_password_token   :string
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
+#  admin                  :boolean
 #
 
 require 'rails_helper'
@@ -21,6 +22,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:votes) }
   it { should have_many(:comments) }
   it { should have_many(:authorizations).dependent(:destroy)}
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   it { should validate_presence_of(:email) }
   it { should validate_presence_of(:password) }
@@ -45,6 +47,20 @@ RSpec.describe User, type: :model do
       expect(Services::FindForOauth).to receive(:new).with(auth).and_return(service)
       expect(service).to receive(:call)
       User.find_for_oauth(auth)
+    end
+  end
+
+  describe '#user_subscribed?' do
+    let(:user) { create(:user) }
+    let(:question) { create(:question) }
+    let!(:subscription) { create(:subscription, user: user, question: question) }
+
+    it 'return true' do
+      expect(user.subscribed?(question)).to eq true
+    end
+
+    it 'return false' do
+      expect(another_user.subscribed?(question)).to eq false
     end
   end
 end

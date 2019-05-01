@@ -29,6 +29,8 @@ class Answer < ApplicationRecord
 
   validates :body, presence: true
 
+  after_create :send_report
+
   def make_best!
     ActiveRecord::Base.transaction do
       question.answers.update_all(best: false)
@@ -38,6 +40,10 @@ class Answer < ApplicationRecord
   end
 
   private
+
+  def send_report
+    Services::Report.new.send_report(self)
+  end
 
   def set_badge!
     question.badge.update!(user: user)

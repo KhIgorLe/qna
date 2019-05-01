@@ -1,0 +1,7 @@
+-if @questions.any?
+  p Questions created at last day:
+  - @questions.each do |question|
+    p
+      = question.title
+-else
+  | There are no any questions for today.

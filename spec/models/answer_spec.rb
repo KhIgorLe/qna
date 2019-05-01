@@ -77,4 +77,18 @@ RSpec.describe Answer, type: :model do
     expect(answer).to receive :broadcast_answer
     answer.save
   end
+
+  describe '#send_report' do
+    let!(:answer) { build(:answer, question: question) }
+    let(:service_report) { double 'Services::Report' }
+
+    before do
+      allow(Services::Report).to receive(:new).and_return(service_report)
+    end
+
+    it 'call Services::Report#send_report' do
+      expect(service_report).to receive(:send_report).with(answer)
+      answer.save
+    end
+  end
 end

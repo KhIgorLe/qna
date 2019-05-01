@@ -46,6 +46,14 @@ class Ability
       user.author_of?(answer.question) && !answer.best?
     end
 
+    can :create, Subscription do |object|
+      !user.subscribed?(object.question)
+    end
+
+    can :destroy, Subscription do |object|
+      user.subscribed?(object.question)
+    end
+
     can :destroy, ActiveStorage::Attachment do |attachment|
       user.author_of?(attachment.record)
     end

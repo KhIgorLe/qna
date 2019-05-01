@@ -104,6 +104,38 @@ RSpec.describe Ability do
       end
     end
 
+    # context 'subscribe' do
+    #   let(:question) { create(:question, user: other_user) }
+    #
+    #   context 'can subscribe' do
+    #     it { should be_able_to :subscribe, question, user: user}
+    #   end
+    #
+    #   context 'can not subscribe' do
+    #     before do
+    #       question.subscribe(user)
+    #     end
+    #
+    #     it { should_not be_able_to :subscribe, question , user: user}
+    #   end
+    # end
+    #
+    # context 'unsubscribe' do
+    #   let(:question) { create(:question, user: other_user) }
+    #
+    #   context 'can unsubscribe' do
+    #     before do
+    #       question.subscribe(user)
+    #     end
+    #
+    #     it { should be_able_to :unsubscribe, question, user: user}
+    #   end
+    #
+    #   context 'can not subscribe' do
+    #     it { should_not be_able_to :unsubscribe, question , user: user}
+    #   end
+    # end
+
     context 'destroy attachment' do
       let(:question) { create(:question, :attached, user: user) }
       let(:attachment) { question.files.first }

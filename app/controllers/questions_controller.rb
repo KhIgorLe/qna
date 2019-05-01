@@ -13,6 +13,7 @@ class QuestionsController < ApplicationController
 
   def show
     @answer = question.answers.new
+    @subscription = question.subscriptions.new(user: current_user)
 
     gon.current_user = current_user
     gon.question = question

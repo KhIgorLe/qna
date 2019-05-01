@@ -29,6 +29,10 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:answer)).to be_a_new(Answer)
     end
 
+    it 'assign new subscription to @subscription' do
+      expect(assigns(:subscription)).to be_a_new(Subscription)
+    end
+
     it 'render show view ' do
       expect(response).to render_template :show
     end
@@ -196,3 +200,4 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 end
+

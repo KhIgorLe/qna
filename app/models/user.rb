@@ -10,6 +10,7 @@
 #  reset_password_token   :string
 #  reset_password_sent_at :datetime
 #  remember_created_at    :datetime
+#  admin                  :boolean
 #
 
 class User < ApplicationRecord
@@ -25,6 +26,7 @@ class User < ApplicationRecord
   has_many :votes
   has_many :comments
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   validates :email, :password, presence: true
 
@@ -42,5 +44,9 @@ class User < ApplicationRecord
 
   def create_authorization(auth)
     self.authorizations.create(provider: auth.provider, uid: auth.uid)
+  end
+
+  def subscribed?(question)
+    subscriptions.where(user_id: id, question_id: question.id).present?
   end
 end

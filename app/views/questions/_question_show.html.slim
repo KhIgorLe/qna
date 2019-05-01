@@ -1,3 +1,7 @@
+- if can?(:create, @subscription)
+  = link_to 'Subscribe', question_subscription_path(question), method: :post
+- if can?(:destroy, @subscription)
+  = link_to 'Unsubscribe', question_subscription_path(question), method: :delete
 h1 = question.title
 = question.body
 = render 'votes/show', resource: question
