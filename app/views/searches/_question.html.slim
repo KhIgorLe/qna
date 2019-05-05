@@ -1,0 +1,9 @@
+p
+  ' Question title
+  = link_to question.title, question_path(question)
+  p
+    ' Question body:
+    = question.body
+    p
+      ' Question author
+      = question.user.email

@@ -3,3 +3,5 @@
     = link_to 'Log out', destroy_user_session_path, method: "delete", class: "btn btn-outline-primary"
   - else
     = link_to 'Sign in', new_user_session_path, class: "btn btn-outline-primary"
+
+  = render 'searches/form'

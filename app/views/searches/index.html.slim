@@ -1,0 +1,5 @@
+-if @searched.any?
+  -@searched.each do |object|
+    = render partial: "#{object.class.name.downcase}", object: object
+-else
+  |No results.

@@ -35,3 +35,6 @@
 database.yml
 
 .env
+
+/config/*.sphinx.conf
+/db/sphinx
