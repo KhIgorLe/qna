@@ -19,3 +19,5 @@ append :linked_dirs, "log", "tmp/pids", "tmp/cache", "tmp/sockets", "public/syst
 
 after 'deploy:finished', 'thinking_sphinx:index'
 after 'deploy:finished', 'thinking_sphinx:restart'
+
+after 'deploy:publishing', 'unicorn:restart'
