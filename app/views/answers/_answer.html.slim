@@ -1,38 +1,41 @@
 - if answer.persisted?
-  li[id="answer_#{answer.id}"]
-    => answer.body
-    = render 'attachments/files', resource: answer
-    - if can?(:make_best, answer)
-      => link_to 'Best answer', make_best_answer_path(answer), method: :patch, remote: true
-    = render 'votes/show', resource: answer
-    .links-body
-      p Links:
-      ul
-        - answer.links.each  do |link|
-          - if link.gist_link?
-            - link.gist_contents.each do |content|
-              li= content
-          - else
-            li= link_to link.name, link.url, target: '_blank'
+  - cache answer do
+    li[id="answer_#{answer.id}"]
+      => answer.body
+      = render 'attachments/files', resource: answer
+      - if can?(:make_best, answer)
+        => link_to 'Best answer', make_best_answer_path(answer), method: :patch, remote: true
+      = render 'votes/show', resource: answer
+      .links-body
+        p Links:
+        ul
+          - answer.links.each  do |link|
+            - if link.gist_link?
+              - link.gist_contents.each do |content|
+                -cache content do
+                  li= content
+            - else
+              -cache link do
+                li= link_to link.name, link.url, target: '_blank'
 
-    .answer-comments
-      | Comments:
-      = render answer.comments
-      = render 'comments/form', commentable: answer
+      .answer-comments
+        | Comments:
+        = render answer.comments
+        = render 'comments/form', commentable: answer
 
-    - if answer.best?
-      ' This is best answer
-    - if can?(:update, answer)
-      => link_to 'Delete answer', answer_path(answer), method: :delete, data: { confirm: 'Are you sure?' }, remote: true
-      = link_to 'Edit answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
+      - if answer.best?
+        ' This is best answer
+      - if can?(:update, answer)
+        => link_to 'Delete answer', answer_path(answer), method: :delete, data: { confirm: 'Are you sure?' }, remote: true
+        = link_to 'Edit answer', '#', class: 'edit-answer-link', data: { answer_id: answer.id }
 
-      = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
-        = f.label :body, 'Your answer'
-        = f.text_area :body
-        = f.label :files
-        = f.file_field :files, multiple: true, direct_upload: true
-        = render 'links/form', f: f
-        = f.submit 'Save answer'
+        = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" } do |f|
+          = f.label :body, 'Your answer'
+          = f.text_area :body
+          = f.label :files
+          = f.file_field :files, multiple: true, direct_upload: true
+          = render 'links/form', f: f
+          = f.submit 'Save answer'
 
-    - if user_signed_in?
-      = link_to 'Add comment', '#',class: 'button-answer-comment', data: { answer_id: answer.id }
+      - if user_signed_in?
+        = link_to 'Add comment', '#',class: 'button-answer-comment', data: { answer_id: answer.id }

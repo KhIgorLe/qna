@@ -18,9 +18,11 @@ h1 = question.title
     - question.links.each  do |link|
       - if link.gist_link?
         - link.gist_contents.each do |content|
-          li=content
+          -cache content do
+            li=content
       -else
-        li= link_to link.name, link.url, target: '_blank'
+        -cache link do
+          li= link_to link.name, link.url, target: '_blank'
 
 .question-comments
   | Comments:

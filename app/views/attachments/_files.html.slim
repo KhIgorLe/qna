@@ -1,6 +1,7 @@
 - if resource.files.attached?
   - resource.files.each do |file|
-    div[id="attachment_#{file.id}"]
-      => link_to file.filename.to_s, url_for(file)
-      - if can?(:destroy, file)
-        = link_to 'Delete file', attachment_path(file.id), method: :delete, remote: true
+    - cache file do
+      div[id="attachment_#{file.id}"]
+        => link_to file.filename.to_s, url_for(file)
+        - if can?(:destroy, file)
+          = link_to 'Delete file', attachment_path(file.id), method: :delete, remote: true
