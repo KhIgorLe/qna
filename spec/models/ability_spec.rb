@@ -104,37 +104,31 @@ RSpec.describe Ability do
       end
     end
 
-    # context 'subscribe' do
-    #   let(:question) { create(:question, user: other_user) }
-    #
-    #   context 'can subscribe' do
-    #     it { should be_able_to :subscribe, question, user: user}
-    #   end
-    #
-    #   context 'can not subscribe' do
-    #     before do
-    #       question.subscribe(user)
-    #     end
-    #
-    #     it { should_not be_able_to :subscribe, question , user: user}
-    #   end
-    # end
-    #
-    # context 'unsubscribe' do
-    #   let(:question) { create(:question, user: other_user) }
-    #
-    #   context 'can unsubscribe' do
-    #     before do
-    #       question.subscribe(user)
-    #     end
-    #
-    #     it { should be_able_to :unsubscribe, question, user: user}
-    #   end
-    #
-    #   context 'can not subscribe' do
-    #     it { should_not be_able_to :unsubscribe, question , user: user}
-    #   end
-    # end
+    context 'subscribe' do
+      let(:question) { create(:question, user: user) }
+      let(:subscription) { question.subscriptions.new(user: other_user) }
+
+      context 'can subscribe' do
+        it { should be_able_to :create, Subscription, subscription, user: other_user }
+      end
+
+      context 'can not subscribe' do
+        it { should_not be_able_to :create, subscription, Subscription, user: user}
+      end
+    end
+
+    context 'unsubscribe' do
+      let(:question) { create(:question, user: other_user) }
+      let(:subscription) { other_user.subscriptions.first }
+
+      context 'can unsubscribe' do
+        it { should be_able_to :destroy, Subscription, subscription, user: other_user}
+      end
+
+      context 'can not subscribe' do
+        it { should_not be_able_to :destroy, subscription, Subscription, user: user}
+      end
+    end
 
     context 'destroy attachment' do
       let(:question) { create(:question, :attached, user: user) }
