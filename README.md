@@ -1,24 +1,21 @@
-# README
+QNA - Application to create a question and get answers to them.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Goal- Getting information from the community on an interesting topic;
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Technology:
+ - tdd/bdd testing(rspec, Capybara);
+ - Ajax;
+ - ActiveStorage;
+ - Nested forms and polymorphic association;
+ - ActionCable;
+ - OAuth;
+ - CanCanCan;
+ - Rest API, doorkeeper, ActiveModelSerializer;
+ - AciveJob, Sidekiq, Whenever;
+ - ThinkingSphinx;
+ - Deploy:
+   -Capistrano;
+   - Unicorn;
+   - Nginx;
+   - Monit;
+   - Backup;
